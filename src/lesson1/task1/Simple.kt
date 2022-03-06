@@ -65,7 +65,12 @@ fun main() {
  * Пользователь задает время в часах, минутах и секундах, например, 8:20:35.
  * Рассчитать время в секундах, прошедшее с начала суток (30035 в данном случае).
  */
+<<<<<<< .merge_file_a21380
 fun seconds(hours: Int, minutes: Int, seconds: Int): Int = hours * 3600 + minutes * 60 + seconds
+=======
+fun seconds(hours: Int, minutes: Int, seconds: Int): Int =
+    (hours * 60 * 60) + (minutes * 60) + seconds
+>>>>>>> .merge_file_a11656
 
 /**
  * Тривиальная (1 балл)
@@ -99,7 +104,11 @@ fun trackLength(x1: Double, y1: Double, x2: Double, y2: Double): Double = sqrt(s
  * Пользователь задает целое число, большее 100 (например, 3801).
  * Определить третью цифру справа в этом числе (в данном случае 8).
  */
+<<<<<<< .merge_file_a21380
 fun thirdDigit(number: Int): Int = (number / 100) % 10
+=======
+fun thirdDigit(number: Int): Int = ((number - number % 100) / 100) % 10
+>>>>>>> .merge_file_a11656
 
 /**
  * Простая (2 балла)

@@ -2,6 +2,9 @@
 
 package lesson6.task1
 
+import lesson4.task1.roman
+import java.util.Collections.max
+
 // Урок 6: разбор строк, исключения
 // Максимальное количество баллов = 13
 // Рекомендуемое количество баллов = 11
@@ -162,7 +165,18 @@ fun firstDuplicateIndex(str: String): Int = TODO()
  * или пустую строку при нарушении формата строки.
  * Все цены должны быть больше нуля либо равны нулю.
  */
-fun mostExpensive(description: String): String = TODO()
+fun mostExpensive(description: String): String {
+    val matchResult = Regex("""([^\s]+ (\d)+(\.(\d)+)?; )+""").matches("$description; ")
+    if (!matchResult) return ""
+    val mas = description.split("; ")
+    val products = mutableMapOf<Double, String>()
+    for (i in mas) {
+        val product = i.split(" ")
+        val cost = product[product.size - 1]
+        products[cost.toDouble()] = i.removeSuffix(" $cost")
+    }
+    return products[max(products.keys)]!!
+}
 
 /**
  * Сложная (6 баллов)
@@ -175,7 +189,20 @@ fun mostExpensive(description: String): String = TODO()
  *
  * Вернуть -1, если roman не является корректным римским числом
  */
-fun fromRoman(roman: String): Int = TODO()
+fun fromRoman(roman: String): Int {
+    val matchResult = Regex("""[IVXLCDM]+""").matches(roman)
+    if (!matchResult) return -1
+    var ans = 0
+    val symbols = mapOf('I' to 1, 'V' to 5, 'X' to 10, 'L' to 50, 'C' to 100, 'D' to 500, 'M' to 1000)
+    var prevChar = roman[0]
+    for (i in roman) {
+        if (symbols[prevChar]!! < symbols[i]!!) ans -= 2 * symbols[prevChar]!!
+        ans += symbols[i]!!
+        prevChar = i
+    }
+    if (roman(ans) == roman) return ans
+    return -1
+}
 
 /**
  * Очень сложная (7 баллов)

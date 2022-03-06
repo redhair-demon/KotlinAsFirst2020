@@ -2,6 +2,8 @@
 
 package lesson5.task1
 
+
+
 // Урок 5: ассоциативные массивы и множества
 // Максимальное количество баллов = 14
 // Рекомендуемое количество баллов = 9
@@ -277,7 +279,16 @@ fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<Stri
  *   findSumOfTwo(listOf(1, 2, 3), 4) -> Pair(0, 2)
  *   findSumOfTwo(listOf(1, 2, 3), 6) -> Pair(-1, -1)
  */
-fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> = TODO()
+fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
+    val arr = mutableMapOf<Int, Int>()
+    for (i in list.indices) {
+        if (number == list[i] * 2 && arr[list[i]] != null) return Pair(arr[list[i]]!!, i)
+        arr[list[i]] = i
+        val second = number - list[i]
+        if (arr[second] != null && i != arr[second]) return Pair(arr[second]!!, i)
+    }
+    return Pair(-1, -1)
+}
 
 /**
  * Очень сложная (8 баллов)
@@ -300,4 +311,37 @@ fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> = TODO()
  *     450
  *   ) -> emptySet()
  */
-fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<String> = TODO()
+
+fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<String> {
+    val sizeOfTreasures = treasures.size
+    val arrOfNames = Array(sizeOfTreasures + 1) { Array(capacity + 1) { mutableSetOf<String>() } }
+    val arr = Array(sizeOfTreasures + 1) { Array(capacity + 1) { 0 } }
+    for (i in 1..sizeOfTreasures) {
+        val weight = treasures.toList()[i - 1].second.first
+        val cost = treasures.toList()[i - 1].second.second
+        val name = treasures.toList()[i - 1].first
+        for (j in 1..capacity) {
+            if (i == 0 || j == 0) {
+                arr[i][j] = 0
+                arrOfNames[i][j] = mutableSetOf()
+            } else {
+                if (weight > j) {
+                    arr[i][j] = arr[i - 1][j]
+                    arrOfNames[i][j] = arrOfNames[i - 1][j]
+                } else {
+                    val prev = arr[i - 1][j]
+                    val next = cost + arr[i - 1][j - weight]
+                    if (prev > next) {
+                        arr[i][j] = prev
+                        arrOfNames[i][j] = arrOfNames[i - 1][j]
+                    } else {
+                        arr[i][j] = next
+                        arrOfNames[i][j].add(name)
+                        arrOfNames[i][j].addAll(arrOfNames[i - 1][j - weight])
+                    }
+                }
+            }
+        }
+    }
+    return arrOfNames[sizeOfTreasures][capacity]
+}

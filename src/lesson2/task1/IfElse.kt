@@ -9,7 +9,7 @@ import kotlin.math.sqrt
 // Урок 2: ветвления (здесь), логический тип (см. 2.2).
 // Максимальное количество баллов = 6
 // Рекомендуемое количество баллов = 5
-// Вместе с предыдущими уроками = 9/12
+// Вместе с предыдущими уроками = 9/11
 
 /**
  * Пример
@@ -68,6 +68,7 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * Мой возраст. Для заданного 0 < n < 200, рассматриваемого как возраст человека,
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
+<<<<<<< .merge_file_a22008
 fun ageDescription(age: Int): String {
     if ((age > 0) && (age < 200)) {
         if ((age % 100 > 10) && (age % 100 < 20)) {
@@ -77,6 +78,19 @@ fun ageDescription(age: Int): String {
         return if ((digit > 1) && (digit < 5)) "$age года" else if (digit == 1) "$age год" else "$age лет"
     } else return "error"
 }
+=======
+fun ageDescription(age: Int): String = when (age % 100) {
+    11, 12, 13, 14 -> "$age лет"
+    else -> {
+        when (age % 10) {
+            1 -> "$age год"
+            2, 3, 4 -> "$age года"
+            else -> "$age лет"
+        }
+    }
+}
+
+>>>>>>> .merge_file_a03908
 
 /**
  * Простая (2 балла)
@@ -141,6 +155,7 @@ fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
  * Если пересечения нет, вернуть -1.
  */
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
+<<<<<<< .merge_file_a22008
     return if ((c <= b) && (a <= c) && (b <= d)) {
         b - c
     } else if ((a <= d) && (c <= a) && (d <= b)) {
@@ -150,4 +165,19 @@ fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
     } else if ((c <= a) && (d >= b)) {
         b - a
     } else -1
+=======
+    if (b < c || d < a) {
+        return -1
+    } else {
+        if (a < c) {
+            if (b < d) return b - c
+            return d - c
+
+        } else {
+            if (b < d) return b - a
+            return d - a
+        }
+    }
+
+>>>>>>> .merge_file_a03908
 }

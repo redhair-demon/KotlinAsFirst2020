@@ -2,6 +2,8 @@
 
 package lesson3.task1
 
+import lesson1.task1.sqr
+import kotlin.math.abs
 import kotlin.math.sqrt
 
 // Урок 3: циклы
@@ -72,7 +74,15 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun digitNumber(n: Int): Int = TODO()
+fun digitNumber(n: Int): Int {
+    var number = n
+    var result = 1
+    while (abs(number) > 9) {
+        ++result
+        number /= 10
+    }
+    return result
+}
 
 /**
  * Простая (2 балла)
@@ -80,7 +90,16 @@ fun digitNumber(n: Int): Int = TODO()
  * Найти число Фибоначчи из ряда 1, 1, 2, 3, 5, 8, 13, 21, ... с номером n.
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
-fun fib(n: Int): Int = TODO()
+fun fib(n: Int): Int {
+    var result = 1
+    var previous = 1
+    for (i in 1 until n - 1) {
+        val temp = result
+        result += previous
+        previous = temp
+    }
+    return result
+}
 
 /**
  * Простая (2 балла)
@@ -183,6 +202,21 @@ fun sin(x: Double, eps: Double): Double = TODO()
  */
 fun cos(x: Double, eps: Double): Double = TODO()
 
+
+
+/**
+ * Логика выделения последней цифры
+ */
+fun sequenceDigit(num: Int, len: Int): Int {
+    var n = num
+    var lenOfLastNum = digitNumber(num)
+    while (len != lenOfLastNum) {
+        --lenOfLastNum
+        n /= 10
+    }
+    return n % 10
+}
+
 /**
  * Сложная (4 балла)
  *
@@ -192,7 +226,17 @@ fun cos(x: Double, eps: Double): Double = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun squareSequenceDigit(n: Int): Int = TODO()
+fun squareSequenceDigit(n: Int): Int {
+    var len = n
+    var num = 1
+    var numSqr = 1
+    while (len > digitNumber(numSqr)) {
+        len -= digitNumber(numSqr)
+        ++num
+        numSqr = sqr(num)
+    }
+    return sequenceDigit(numSqr, len)
+}
 
 /**
  * Сложная (5 баллов)
@@ -203,4 +247,14 @@ fun squareSequenceDigit(n: Int): Int = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun fibSequenceDigit(n: Int): Int = TODO()
+fun fibSequenceDigit(n: Int): Int {
+    var len = n
+    var num = 1
+    var numFib = 1
+    while (len > digitNumber(numFib)) {
+        len -= digitNumber(numFib)
+        ++num
+        numFib = fib(num)
+    }
+    return sequenceDigit(numFib, len)
+}
